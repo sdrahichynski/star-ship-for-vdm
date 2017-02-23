@@ -7,6 +7,17 @@
 
 	var View = {
 
+		scrollTo: function($el, offset , callback) {
+			var scrollContainer = $('html, body');
+			var value = $el.offset().top + (offset || 0);
+
+			var deltaTime = Math.abs($(window).scrollTop() - value) * 1;
+			if (deltaTime < 60) { callback; return; }
+			deltaTime = deltaTime > 400 ? 400 : deltaTime;
+			scrollContainer.animate({'scrollTop': value}, deltaTime , callback);
+
+		},
+
 		checkAutoHeight: function($el){
 			var height;
 
@@ -28,19 +39,26 @@
 
 			close: function($el, $button) {
 
-				$el.removeClass('opened');
-				$el.css({
-					'height': 0,
-					'opacity': 0,
-				});
+				View.scrollTo( $el.closest(partnersSelector), $('nav.main-nav').height() * -1, function(){
 
-				$button.text($button.data('closed-text'));
+					$el.removeClass('opened');
+
+					$el.css({
+						'height': 0,
+						'opacity': 0,
+					});
+
+					$button.text($button.data('closed-text'));
+
+				});
 
 			},
 
 			open: function($el, $button) {
 
 				var height = View.checkAutoHeight($el);
+
+				View.scrollTo( $el.closest(partnersSelector), $('nav.main-nav').height() * -1);
 
 				$el.addClass('opened');
 
@@ -51,8 +69,8 @@
 					});
 				}, 0);
 
-
 				$button.text($button.data('opened-text'));
+
 			},
 
 			showMore: function($button) {
@@ -82,6 +100,16 @@
 			View.partners.showMore($moreButton);
 		},
 
+		partnersTransitionEnd: function(e) {
+			var prop = e.originalEvent.propertyName;
+			if (prop !== 'height') return false;
+			// else
+			var morePartners = $(this).closest(morePartnersListSelector);
+
+			if (morePartners.height() === 0) return;
+			View.scrollTo( morePartners.closest(partnersSelector), $('nav.main-nav').height() * -1);
+		}
+
 	};
 
 	(function(){
@@ -96,13 +124,12 @@
 
 			main: function(){
 
-				// Partners.init(partnersSelector);
-
 			},
 
 			events: function(){
 
 				$(document).on('click', partnersSelector, Controller.partnersClick);
+				// $(document).on('transitionend', morePartnersListSelector, Controller.partnersTransitionEnd);
 
 			}
 

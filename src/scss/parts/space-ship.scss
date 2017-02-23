@@ -1,0 +1,111 @@
+.zones {
+
+	.background-items {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(#1b091f, #361240);
+		z-index: 0;
+		div {
+			position: absolute;
+			z-index: 0;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+
+			&:nth-child(1) {
+				background: url(../img/stars.svg);
+			}
+
+			&:nth-child(2) {
+				background: url(../img/stars.svg);
+				background-size: 110%;
+			}
+
+			&:nth-child(2) {
+				background: url(../img/stars.svg);
+				background-size: 130%;
+			}
+		}
+
+	}
+}
+
+.zones-wrapper {
+	display: flex;
+	padding: 0;
+	z-index: 10;
+}
+
+.space-ship {
+	position: relative;
+	width: 58%;
+	flex: 0 0 auto;
+	z-index: 10;
+}
+
+.ship-module {
+	position: absolute;
+	display: block;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	&:nth-child(2) {
+		width: 60%;
+	}
+}
+
+.zones-info {
+	flex: 0 0 auto;
+	position: relative;
+	width: 42%;
+	min-width: 320px;
+	height: calc(100vh - 80px);
+	box-shadow: 0 0 1px rgba(0,0,0,.3);
+}
+
+.zone-popup {
+	display: block;
+	position: absolute;
+	width: 300px;
+	height: 460px;
+	right: 10px;
+	// top: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	padding: 30px 32px;
+	border-radius: 5px;
+	border: 2px solid #fff;
+
+	color: #fff;
+	opacity: 0;
+	pointer-events: none;
+
+	&.active {
+		opacity: 1;
+		pointer-events: initial;
+	}
+
+	.close {
+		display: block;
+		position: absolute;
+		height: 16px;
+		width: 16px;
+		top: 32px;
+		right: 32px;
+
+		svg {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	h3 {
+		text-align: left;
+		margin: .2em auto 1em;
+	}
+}
